@@ -34,7 +34,13 @@ function minuteofhour()
 	mohwidth=$width
 }
 
-epoch=$(( $(date -d "$1" '+%s') + 60 ))
+if [ -z ${1+x} ]
+then
+	epoch=$(( $(date '+%s') + 60 ))
+else
+	epoch=$(date -d "$1" '+%s')
+fi
+
 date=$(date -d@$epoch '+%Y-%m-%d %H:%M')
 filename=$(echo $date | sed 's/[ :\-]//g')
 
@@ -49,4 +55,4 @@ cp lcarsclock.tpl $filename'.svg'
 
 sed -i 's/===RED===/'$doywidth'/g;s/===BLUE===/'$domwidth'/g;s/===GREEN===/'$hodwidth'/g;s/===YELLOW===/'$mohwidth'/g;' $filename'.svg'
 
-convert -density 100 $filename'.svg' $filename'.png'
+convert -density 384 -flatten $filename'.svg' -resize '320x240!' $filename'.png'
