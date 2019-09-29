@@ -1,5 +1,6 @@
 #! /usr/bin/env bash
 
+framebuffer=/dev/fb2
 
 function perc2width()
 {
@@ -34,25 +35,65 @@ function minuteofhour()
 	mohwidth=$width
 }
 
-if [ -z ${1+x} ]
-then
-	epoch=$(( $(date '+%s') + 60 ))
-else
-	epoch=$(date -d "$1" '+%s')
-fi
+function clock()
+{
+	if [ -z ${1+x} ]
+	then
+		epoch=$(( $(date '+%s') + 60 ))
+	else
+		if [ "$1" == "now" ]
+		then
+			epoch=$(date '+%s')
+		else
+			epoch=$(date -d "$1" '+%s')
+		fi
+	fi
 
-date=$(date -d@$epoch '+%Y-%m-%d %H:%M')
-filename=$(echo $date | sed 's/[ :\-]//g')
+	date=$(date -d@$epoch '+%Y-%m-%d %H:%M')
+	filename=$(echo $date | sed 's/[ :\-]//g')
 
-echo $epoch' - '$date' - '$filename
+	bmpfile=$filename'.bmp'
+	if [ -f $bmbfile ]
+	then
+		# echo "file exists"
+		return 0
+	fi
 
-dayofyear "$date"		# red
-dayofmonth "$date"		# blue
-hourofday "$date"		# green
-minuteofhour "$date"		# yellow
+	# echo $epoch' - '$date' - '$filename
 
-cp lcarsclock.tpl $filename'.svg'
+	dayofyear "$date"		# red
+	dayofmonth "$date"		# blue
+	hourofday "$date"		# green
+	minuteofhour "$date"		# yellow
 
-sed -i 's/===RED===/'$doywidth'/g;s/===BLUE===/'$domwidth'/g;s/===GREEN===/'$hodwidth'/g;s/===YELLOW===/'$mohwidth'/g;' $filename'.svg'
+	cp lcarsclock.tpl $filename'.svg'
 
-convert -density 384 -flatten $filename'.svg' -resize '320x240!' $filename'.png'
+	sed -i 's/===RED===/'$doywidth'/g;s/===BLUE===/'$domwidth'/g;s/===GREEN===/'$hodwidth'/g;s/===YELLOW===/'$mohwidth'/g;' $filename'.svg'
+
+	convert -density 384 -flatten $filename'.svg' -resize '320x240!' \
+		$filename'.png'
+
+	convert -font swiss911.ttf -pointsize 34 -gravity center \
+		-fill white -background black \
+		-size '280x34' \
+		label:"$(date -d@$epoch '+%Y %m %d . %H %M')" \
+		$filename'-font.png'
+
+	convert $filename'.png' $filename'-font.png' -geometry +20+11 \
+		-composite \
+		png32:$filename'.png'
+
+	convert $filename'.png' -flip -type truecolor \
+		-define bmp:subtype=RGB565 \
+		$bmpfile
+
+	rm $filename'.svg' $filename'-font.png' $filename'.png'
+}
+
+clock "now"
+
+tail --bytes 153600 $bmpfile > $framebuffer
+
+# remove old images and pre-create next minute
+rm *.bmp
+clock
