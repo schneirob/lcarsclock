@@ -53,9 +53,9 @@ function clock()
 	filename=$(echo $date | sed 's/[ :\-]//g')
 
 	bmpfile=$filename'.bmp'
-	if [ -f $bmbfile ]
+	if [ -f $bmpfile ]
 	then
-		# echo "file exists"
+		# echo "file exists: "$bmpfile
 		return 0
 	fi
 
@@ -91,7 +91,6 @@ function clock()
 }
 
 clock "now"
-
 tail --bytes 153600 $bmpfile > $framebuffer
 
 # remove old images and pre-create next minute
