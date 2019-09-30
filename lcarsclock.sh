@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-framebuffer=/dev/fb2
+framebuffer=/dev/fb1
 
 function perc2width()
 {
