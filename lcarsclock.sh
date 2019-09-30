@@ -12,27 +12,47 @@ function perc2width()
 function dayofyear()
 {
 	date -d $(date -d "$1" '+%Y')'-02-29' &>/dev/null && diy=366 || diy=365;
-	perc2width $(date -d "$1" '+%j')'.000000/'$diy'.00000'
+	doy=$(date -d "$1" '+%j')
+	perc2width $doy'.000000/'$diy'.00000'
 	doywidth=$width
+	if [ ${DEBUG+x} ]
+	then
+		echo "dayofyear - "$doy" - "$diy" - "$doywidth
+	fi
 }
 
 function dayofmonth()
 {
 	for dim in $(cal $(date -d "$1" '+%m %Y')); do true; done
-	perc2width $(date -d "$1" '+%d')'.0000/'$dim'.0000'
+	dom=$(date -d "$1" '+%d')
+	perc2width $dom'.0000/'$dim'.0000'
 	domwidth=$width
+	if [ ${DEBUG+x} ]
+	then
+		echo "dayofmonth - "$dom" - "$dim" - "$domwidth
+	fi
 }
 
 function hourofday()
 {
-	perc2width $(date -d "$1" '+%H')'.0000/23.0000'
+	hod=$(date -d "$1" '+%H')
+	perc2width $hod'.0000/23.0000'
 	hodwidth=$width
+	if [ ${DEBUG+x} ]
+	then
+		echo "hourofday - "$hod" - "$hodwidth
+	fi
 }
 
 function minuteofhour()
 {
-	perc2width $(date -d "$1" '+%M')'.0000/59.0000'
+	moh=$(date -d "$1" '+%M')
+	perc2width $moh'.0000/59.0000'
 	mohwidth=$width
+	if [ ${DEBUG+x} ]
+	then
+		echo "minuteofhour - "$moh" - "$mohwidth
+	fi
 }
 
 function clock()
@@ -55,11 +75,17 @@ function clock()
 	bmpfile=$filename'.bmp'
 	if [ -f $bmpfile ]
 	then
-		# echo "file exists: "$bmpfile
+		if [ ${DEBUG+x} ]
+		then
+			echo "file exists: "$bmpfile
+		fi
 		return 0
 	fi
 
-	# echo $epoch' - '$date' - '$filename
+	if [ ${DEBUG+x} ]
+	then
+		echo $epoch' - '$date' - '$filename
+	fi
 
 	dayofyear "$date"		# red
 	dayofmonth "$date"		# blue
@@ -87,12 +113,24 @@ function clock()
 		-define bmp:subtype=RGB565 \
 		$bmpfile
 
-	rm $filename'.svg' $filename'-font.png' $filename'.png'
+	if [ ${DEBUG+x} ]
+	then
+		rm $filename'.svg' $filename'-font.png'
+	else
+		rm $filename'.svg' $filename'-font.png' $filename'.png'
+	fi
 }
 
-clock "now"
-tail --bytes 153600 $bmpfile > $framebuffer
+if [ -z ${1+x} ]
+then
+	# operational: create current image if not existent
+	clock "now"
+	tail --bytes 153600 $bmpfile > $framebuffer
 
-# remove old images and pre-create next minute
-rm *.bmp
-clock
+	# remove old images and pre-create next minute
+	rm *.bmp
+	clock
+else
+	DEBUG="DEBUG"
+	clock "$1"
+fi
