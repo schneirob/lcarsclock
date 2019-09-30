@@ -23,7 +23,10 @@ function dayofyear()
 
 function dayofmonth()
 {
-	for dim in $(cal $(date -d "$1" '+%m %Y')); do true; done
+	for dim in $(cal $(date -d "$1" '+%m %Y') | sed 's/[^0-9 ]//g')
+	do 
+		true
+	done
 	dom=$(date -d "$1" '+%d')
 	perc2width $dom'.0000/'$dim'.0000'
 	domwidth=$width
