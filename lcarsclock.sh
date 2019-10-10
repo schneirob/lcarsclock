@@ -102,13 +102,22 @@ function clock()
 	convert -density 384 -flatten $filename'.svg' -resize '320x240!' \
 		$filename'.png'
 
-	convert -font swiss2.ttf -pointsize 50 -gravity center \
+	convert -font swiss2.ttf -gravity center \
 		-fill white -background black \
-		-size '280x58' \
+		-size '1080x232' \
 		label:"$(date -d@$epoch '+%Y %m %d . %H %M')" \
 		$filename'-font.png'
 
-	convert $filename'.png' $filename'-font.png' -geometry +20+11 \
+	convert -font swiss911.ttf -gravity center \
+		-fill white -background black \
+		-size '1080x212' \
+		caption:"$(fortune ./fortunes 2> /dev/null)" \
+		$filename'-fortune.png'
+
+	convert $filename'.png' \
+		$filename'-font.png' -geometry 270x58+25+11 \
+		-composite \
+		$filename'-fortune.png' -geometry 270x53+25+177 \
 		-composite \
 		png32:$filename'.png'
 
@@ -118,9 +127,11 @@ function clock()
 
 	if [ ${DEBUG+x} ]
 	then
-		rm $filename'.svg' $filename'-font.png'
+		rm $filename'.svg' $filename'-font.png' \
+			$filename'-fortune.png'
 	else
-		rm $filename'.svg' $filename'-font.png' $filename'.png'
+		rm $filename'.svg' $filename'-font.png' $filename'.png' \
+			$filename'-fortune.png'
 	fi
 }
 
