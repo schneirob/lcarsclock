@@ -5,7 +5,7 @@ framebuffer=/dev/fb1
 function perc2width()
 {
 	# convert percentage into tpl width of bar
-	full='42.333332'
+	full='50.270832'
 	width=$(echo 'scale=6;('$full'*'"$1"')/1' | bc | sed 's/^\./0./')
 }
 
@@ -102,9 +102,9 @@ function clock()
 	convert -density 384 -flatten $filename'.svg' -resize '320x240!' \
 		$filename'.png'
 
-	convert -font swiss911.ttf -pointsize 34 -gravity center \
+	convert -font swiss2.ttf -pointsize 50 -gravity center \
 		-fill white -background black \
-		-size '280x34' \
+		-size '280x58' \
 		label:"$(date -d@$epoch '+%Y %m %d . %H %M')" \
 		$filename'-font.png'
 
@@ -135,5 +135,10 @@ then
 	clock
 else
 	DEBUG="DEBUG"
-	clock "$1"
+	if [ "$1" == "-d" ]
+	then
+		clock
+	else
+		clock "$1"
+	fi
 fi

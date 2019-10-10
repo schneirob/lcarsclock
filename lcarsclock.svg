@@ -433,8 +433,8 @@
        y="274.77496" />
     <rect
        style="fill:#b43c3c;fill-opacity:1;stroke:none;stroke-width:0.03611092;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.36470588"
-       id="red"
-       width="===RED==="
+       id="green"
+       width="50.270832"
        height="3.96875"
        x="17.197916"
        y="255.98956" />
@@ -442,13 +442,13 @@
        y="261.28122"
        x="17.197916"
        height="3.96875"
-       width="===BLUE==="
+       width="50.270832"
        id="rect4603"
        style="fill:#0073be;fill-opacity:1;stroke:none;stroke-width:0.03611092;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.36470588" />
     <rect
        style="fill:#e6b414;fill-opacity:1;stroke:none;stroke-width:0.03611092;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.36470588"
        id="rect4609"
-       width="===YELLOW==="
+       width="50.270832"
        height="3.96875"
        x="17.197916"
        y="271.86453" />
@@ -456,7 +456,7 @@
        y="266.57288"
        x="17.197916"
        height="3.96875"
-       width="===GREEN==="
+       width="50.270832"
        id="rect4615"
        style="fill:#82965a;fill-opacity:1;stroke:none;stroke-width:0.03611092;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.36470588" />
   </g>
