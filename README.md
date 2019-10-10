@@ -1,5 +1,20 @@
 ~~~bash
-sudo apt install bc imagemagick
+sudo apt install bc imagemagick fortunes
+~~~
+
+~~~fortune
+first fortune
+%
+second fortune
+%
+multi
+line
+fortune
+%
+~~~
+
+~~~bash
+strfile fortunefile
 ~~~
 
 ~~~crontab
