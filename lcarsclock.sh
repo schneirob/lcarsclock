@@ -1,5 +1,10 @@
 #! /usr/bin/env bash
 
+if [ ! ${USER+x} ]
+then
+	USER=pi
+fi
+
 framebuffer='/dev/fb1'
 lcarsdir='/home/'$USER'/lcarsclock'
 fortunedir=$lcarsdir'/fortunes'
@@ -161,7 +166,7 @@ then
 	tail --bytes 153600 $bmpfile > $framebuffer
 
 	# remove old images and pre-create next minute
-	rm *.bmp
+	rm $tmpdir'/'*.bmp
 	clock
 else
 	DEBUG="DEBUG"

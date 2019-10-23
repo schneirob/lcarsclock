@@ -19,5 +19,5 @@ strfile fortunefile
 
 ~~~crontab
 # m h  dom mon dow   command
-* * * * * cd /home/pi/lcarsclock; ./lcarsclock.sh &> /dev/null
+* * * * *	/home/pi/lcarsclock/lcarsclock.sh &>> /dev/null
 ~~~
