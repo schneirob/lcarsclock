@@ -1,6 +1,7 @@
 #! /usr/bin/env bash
 
 framebuffer=/dev/fb1
+fortunedir=/home/pi/lcarsclock/fortunes
 
 function perc2width()
 {
@@ -111,7 +112,7 @@ function clock()
 	convert -font swiss911.ttf -gravity center \
 		-fill white -background black \
 		-size '1080x212' \
-		caption:"$(fortune ./fortunes 2> /dev/null)" \
+		caption:"$(fortune $fortunedir)" \
 		$filename'-fortune.png'
 
 	convert $filename'.png' \
