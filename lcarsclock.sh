@@ -1,8 +1,7 @@
 #! /usr/bin/env bash
 
-user='schumach'
 framebuffer='/dev/fb1'
-lcarsdir='/home/'$user'/git/lcarsclock'
+lcarsdir='/home/'$USER'/lcarsclock'
 fortunedir=$lcarsdir'/fortunes'
 tmpdir=$lcarsdir'/tmp'
 
