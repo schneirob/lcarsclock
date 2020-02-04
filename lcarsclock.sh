@@ -172,7 +172,12 @@ else
 	DEBUG="DEBUG"
 	if [ "$1" == "-d" ]
 	then
-		clock
+		if [ -z ${2+x} ]
+		then
+			clock
+		else
+			clock "$2"
+		fi
 	else
 		clock "$1"
 	fi
