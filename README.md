@@ -5,6 +5,19 @@ raspberry Pi. Refere to
 [/schneirob/rpidualili9341](https://github.com/schneirob/rpidualili9341 "How to connect two SPI displays with ili9341 chipset to one Raspberry Pi")
 for further information.
 
+# The clock
+
+![clock example](img/202012011259.png)
+
+The clock shows the time in "space time" 'yyyy mm dd . hh mm'. The four bars
+represent the percentage of the year (red), month (blue), day (green) and hour
+(yellow) that has already passed. If the red bar reaches the far right side,
+its time to meet your anual targets! If the green bar reaches the far right,
+its time to go home!
+
+
+# Sending an image to an SPI display via the framebuffer device
+
 These displays use RGB565 - meaning two bytes per pixel - for their color
 representation. The display used in this project utilizes a display of 320x240.
 320 x 240 x 2 = 153 600 - so writing 153 600 bytes to a frame buffer device
